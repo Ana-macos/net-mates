@@ -15,6 +15,7 @@ import GameChat from "./pages/GameChat";
 import Confirmation from "./pages/Confirmation";
 import PostGameRating from "./pages/PostGameRating";
 import Profile from "./pages/Profile";
+import Search from "./pages/Search";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -39,6 +40,7 @@ const App = () => (
           <Route path="/confirmation" element={<Confirmation />} />
           <Route path="/rating" element={<PostGameRating />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/search" element={<Search />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

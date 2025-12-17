@@ -1,14 +1,14 @@
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { MobileLayout } from "@/components/ui/MobileLayout";
-import { Calendar, Clock, MapPin, CheckCircle2 } from "lucide-react";
+import { Calendar, Clock, MapPin, CheckCircle2, Star } from "lucide-react";
 
 export const Confirmation = () => {
   const navigate = useNavigate();
 
   return (
     <MobileLayout>
-      <div className="flex flex-col h-[calc(100%-48px)] px-6 pb-8 items-center justify-center">
+      <div className="flex flex-col min-h-[calc(844px-48px)] px-6 pb-8 items-center justify-center">
         <motion.div
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
@@ -59,7 +59,7 @@ export const Confirmation = () => {
 
           <div className="mt-4 pt-4 border-t border-border">
             <span className="partner-badge">
-              <span className="w-1.5 h-1.5 bg-current rounded-full" />
+              <Star className="w-3 h-3" />
               Clube Parceiro
             </span>
           </div>
@@ -75,7 +75,7 @@ export const Confirmation = () => {
 
           <button
             onClick={() => navigate("/home")}
-            className="w-full bg-secondary text-foreground font-semibold rounded-xl py-4 hover:bg-secondary/80 transition-colors"
+            className="w-full bg-card text-foreground font-semibold rounded-full py-4 hover:bg-muted transition-colors border border-border"
           >
             Voltar para Home
           </button>
