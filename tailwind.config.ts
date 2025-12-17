@@ -14,7 +14,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        outfit: ['Outfit', 'sans-serif'],
+        display: ['Spline Sans', 'Noto Sans', 'sans-serif'],
+        body: ['Noto Sans', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -50,12 +51,7 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        tennis: {
-          green: "hsl(var(--tennis-green))",
-          dark: "hsl(var(--tennis-dark))",
-          card: "hsl(var(--tennis-card))",
-        },
-        partner: "hsl(var(--partner-badge))",
+        surface: "hsl(var(--surface))",
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -63,6 +59,7 @@ export default {
         sm: "calc(var(--radius) - 4px)",
         "2xl": "1rem",
         "3xl": "1.5rem",
+        "4xl": "2rem",
       },
       keyframes: {
         "accordion-down": {
@@ -85,6 +82,10 @@ export default {
           from: { opacity: "0", transform: "scale(0.95)" },
           to: { opacity: "1", transform: "scale(1)" },
         },
+        "bounce-short": {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-4px)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -92,10 +93,13 @@ export default {
         "fade-in": "fade-in 0.5s ease-out forwards",
         "slide-up": "slide-up 0.5s ease-out forwards",
         "scale-in": "scale-in 0.3s ease-out forwards",
+        "bounce-short": "bounce-short 0.6s ease-in-out infinite",
       },
       boxShadow: {
-        glow: "0 0 30px hsl(142 71% 45% / 0.3)",
-        "glow-lg": "0 0 50px hsl(142 71% 45% / 0.4)",
+        glow: "0 0 30px hsl(59 95% 50% / 0.3)",
+        "glow-lg": "0 0 50px hsl(59 95% 50% / 0.4)",
+        primary: "0 4px 12px hsl(59 95% 50% / 0.2)",
+        "primary-lg": "0 8px 16px hsl(59 95% 50% / 0.3)",
       },
     },
   },
