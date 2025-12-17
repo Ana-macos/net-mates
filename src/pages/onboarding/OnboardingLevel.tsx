@@ -1,139 +1,129 @@
-import { useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { MobileLayout } from "@/components/ui/MobileLayout";
-import { ArrowRight, Trophy, Target, Zap } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check } from "lucide-react";
+import { useState } from "react";
 
 const levels = [
   {
-    id: "iniciante",
-    label: "Iniciante",
-    description: "Estou começando a jogar ou pratico há pouco tempo",
-    icon: Target,
-    color: "emerald",
+    id: "beginner",
+    title: "Iniciante",
+    description: "Estou aprendendo as regras e golpes básicos.",
+    image: "https://images.unsplash.com/photo-1587280501635-68a0e82cd5ff?q=80&w=200&auto=format&fit=crop",
   },
   {
-    id: "intermediario",
-    label: "Intermediário",
-    description: "Jogo regularmente e domino os fundamentos",
-    icon: Zap,
-    color: "blue",
+    id: "intermediate",
+    title: "Intermediário",
+    description: "Consigo manter ralis e sacar com consistência.",
+    image: "https://images.unsplash.com/photo-1554068865-24cecd4e34b8?q=80&w=200&auto=format&fit=crop",
   },
   {
-    id: "avancado",
-    label: "Avançado",
-    description: "Tenho experiência competitiva e técnica refinada",
-    icon: Trophy,
-    color: "purple",
+    id: "advanced",
+    title: "Avançado",
+    description: "Jogo competições e tenho controle total do jogo.",
+    image: "https://images.unsplash.com/photo-1595435934249-5df7ed86e1c0?q=80&w=200&auto=format&fit=crop",
   },
 ];
 
 export const OnboardingLevel = () => {
   const navigate = useNavigate();
-  const [selected, setSelected] = useState<string | null>(null);
-
-  const getColorClass = (color: string, isSelected: boolean) => {
-    const colors: Record<string, { bg: string; text: string; border: string }> = {
-      emerald: {
-        bg: isSelected ? "bg-emerald-500/20" : "bg-emerald-500/10",
-        text: "text-emerald-400",
-        border: isSelected ? "border-emerald-500" : "border-transparent",
-      },
-      blue: {
-        bg: isSelected ? "bg-blue-500/20" : "bg-blue-500/10",
-        text: "text-blue-400",
-        border: isSelected ? "border-blue-500" : "border-transparent",
-      },
-      purple: {
-        bg: isSelected ? "bg-purple-500/20" : "bg-purple-500/10",
-        text: "text-purple-400",
-        border: isSelected ? "border-purple-500" : "border-transparent",
-      },
-    };
-    return colors[color];
-  };
+  const [selectedLevel, setSelectedLevel] = useState("intermediate");
 
   return (
     <MobileLayout>
-      <div className="flex flex-col h-[calc(100%-48px)] px-6 pb-8">
-        {/* Progress indicator */}
-        <div className="flex gap-2 mb-8">
-          <div className="flex-1 h-1 bg-primary rounded-full" />
-          <div className="flex-1 h-1 bg-border rounded-full" />
-          <div className="flex-1 h-1 bg-border rounded-full" />
+      <div className="flex flex-col min-h-[calc(844px-48px)] bg-card">
+        {/* Header */}
+        <div className="flex w-full flex-col gap-4 pt-6 px-6">
+          <div className="flex w-full flex-row items-center justify-between">
+            <button 
+              onClick={() => navigate(-1)}
+              className="flex items-center justify-center w-10 h-10 rounded-full bg-muted text-foreground hover:bg-muted/80 transition-colors"
+            >
+              <ArrowLeft className="w-5 h-5" />
+            </button>
+            <div className="flex flex-row items-center justify-center gap-2">
+              <div className="progress-dot" />
+              <div className="progress-dot active" />
+              <div className="progress-dot" />
+              <div className="progress-dot" />
+            </div>
+            <button className="flex items-center justify-center w-10 h-10 text-muted-foreground font-medium text-sm">
+              Pular
+            </button>
+          </div>
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          <h1 className="text-2xl font-bold text-foreground mb-2">
-            Qual é o seu nível?
-          </h1>
-          <p className="text-muted-foreground mb-8">
-            Isso nos ajuda a encontrar jogadores compatíveis
-          </p>
-        </motion.div>
+        {/* Content */}
+        <div className="flex flex-col flex-1 px-6 pt-6 pb-24 overflow-y-auto no-scrollbar">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-8"
+          >
+            <h1 className="text-3xl font-bold leading-tight tracking-tight text-foreground mb-3">
+              Qual é o seu nível?
+            </h1>
+            <p className="text-base text-muted-foreground leading-relaxed">
+              Isso nos ajuda a encontrar os parceiros ideais e jogos equilibrados para você.
+            </p>
+          </motion.div>
 
-        <div className="flex-1 space-y-4">
-          {levels.map((level, index) => {
-            const isSelected = selected === level.id;
-            const colorClass = getColorClass(level.color, isSelected);
-            
-            return (
-              <motion.button
+          {/* Selection Cards */}
+          <div className="flex flex-col gap-4">
+            {levels.map((level, index) => (
+              <motion.label
                 key={level.id}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.4, delay: index * 0.1 }}
-                onClick={() => setSelected(level.id)}
-                className={`w-full text-left tennis-card p-5 border-2 transition-all duration-300 ${colorClass.border} ${
-                  isSelected ? "scale-[1.02]" : ""
-                }`}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+                className="group relative cursor-pointer"
               >
-                <div className="flex items-start gap-4">
-                  <div
-                    className={`w-12 h-12 rounded-xl ${colorClass.bg} flex items-center justify-center flex-shrink-0`}
-                  >
-                    <level.icon className={`w-6 h-6 ${colorClass.text}`} />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="font-semibold text-foreground text-lg mb-1">
-                      {level.label}
-                    </h3>
-                    <p className="text-muted-foreground text-sm leading-relaxed">
+                <input
+                  type="radio"
+                  name="level"
+                  value={level.id}
+                  checked={selectedLevel === level.id}
+                  onChange={() => setSelectedLevel(level.id)}
+                  className="peer sr-only"
+                />
+                <div className={`flex items-center gap-4 rounded-xl p-4 transition-all duration-300 border-2 ${
+                  selectedLevel === level.id 
+                    ? "border-primary bg-primary/5" 
+                    : "border-transparent bg-muted/50 hover:bg-muted"
+                }`}>
+                  <div 
+                    className="h-20 w-20 shrink-0 overflow-hidden rounded-lg bg-cover bg-center"
+                    style={{ backgroundImage: `url("${level.image}")` }}
+                  />
+                  <div className="flex flex-col flex-1">
+                    <div className="flex justify-between items-center mb-1">
+                      <span className="font-bold text-lg text-foreground">{level.title}</span>
+                      {selectedLevel === level.id && (
+                        <div className="h-6 w-6 rounded-full bg-primary flex items-center justify-center">
+                          <Check className="w-4 h-4 text-primary-foreground" />
+                        </div>
+                      )}
+                    </div>
+                    <p className="text-sm text-muted-foreground leading-snug">
                       {level.description}
                     </p>
                   </div>
-                  {isSelected && (
-                    <motion.div
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      className={`w-6 h-6 rounded-full ${colorClass.bg} flex items-center justify-center`}
-                    >
-                      <div className={`w-2 h-2 rounded-full bg-current ${colorClass.text}`} />
-                    </motion.div>
-                  )}
                 </div>
-              </motion.button>
-            );
-          })}
+              </motion.label>
+            ))}
+          </div>
         </div>
 
-        <motion.button
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          onClick={() => selected && navigate("/onboarding/objective")}
-          disabled={!selected}
-          className={`tennis-button w-full flex items-center justify-center gap-2 ${
-            !selected ? "opacity-50 cursor-not-allowed" : ""
-          }`}
-        >
-          Continuar
-          <ArrowRight className="w-5 h-5" />
-        </motion.button>
+        {/* Footer CTA */}
+        <div className="absolute bottom-0 left-0 w-full bg-card p-6 border-t border-border">
+          <button
+            onClick={() => navigate("/onboarding/objective")}
+            className="tennis-button w-full flex items-center justify-center gap-2 group"
+          >
+            <span>Continuar</span>
+            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+          </button>
+        </div>
       </div>
     </MobileLayout>
   );

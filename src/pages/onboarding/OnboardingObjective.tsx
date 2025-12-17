@@ -1,128 +1,121 @@
-import { useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { MobileLayout } from "@/components/ui/MobileLayout";
-import { ArrowRight, ArrowLeft, Coffee, Dumbbell, Trophy } from "lucide-react";
+import { ArrowRight, Check, Smile, Dumbbell, Trophy } from "lucide-react";
+import { useState } from "react";
 
 const objectives = [
   {
     id: "casual",
-    label: "Jogo Casual",
-    description: "Quero me divertir e conhecer pessoas",
-    icon: Coffee,
+    icon: Smile,
+    title: "Jogo Casual",
+    description: "Diversão sem compromisso.",
+    image: "https://images.unsplash.com/photo-1551773188-d3b9f9c5d3a0?q=80&w=200&auto=format&fit=crop",
   },
   {
-    id: "treino",
-    label: "Treino",
-    description: "Quero melhorar minhas habilidades",
+    id: "training",
     icon: Dumbbell,
+    title: "Treino",
+    description: "Melhore sua técnica.",
+    image: "https://images.unsplash.com/photo-1595435934249-5df7ed86e1c0?q=80&w=200&auto=format&fit=crop",
   },
   {
-    id: "competitivo",
-    label: "Competitivo",
-    description: "Busco jogos desafiadores e partidas sérias",
+    id: "competitive",
     icon: Trophy,
+    title: "Competitivo",
+    description: "Valendo pontos e ranking.",
+    image: "https://images.unsplash.com/photo-1554068865-24cecd4e34b8?q=80&w=200&auto=format&fit=crop",
   },
 ];
 
 export const OnboardingObjective = () => {
   const navigate = useNavigate();
-  const [selected, setSelected] = useState<string | null>(null);
+  const [selectedObjective, setSelectedObjective] = useState("training");
 
   return (
     <MobileLayout>
-      <div className="flex flex-col h-[calc(100%-48px)] px-6 pb-8">
-        {/* Back button */}
-        <button
-          onClick={() => navigate(-1)}
-          className="w-10 h-10 rounded-xl bg-secondary flex items-center justify-center mb-4 hover:bg-secondary/80 transition-colors"
-        >
-          <ArrowLeft className="w-5 h-5 text-foreground" />
-        </button>
+      <div className="flex flex-col min-h-[calc(844px-48px)] bg-background justify-between p-6">
+        {/* Top Section */}
+        <div className="flex flex-col w-full">
+          {/* Progress */}
+          <div className="flex w-full flex-row items-center justify-start gap-2 py-6">
+            <div className="progress-dot active" />
+            <div className="progress-dot" />
+            <div className="progress-dot" />
+          </div>
 
-        {/* Progress indicator */}
-        <div className="flex gap-2 mb-8">
-          <div className="flex-1 h-1 bg-primary rounded-full" />
-          <div className="flex-1 h-1 bg-primary rounded-full" />
-          <div className="flex-1 h-1 bg-border rounded-full" />
+          {/* Headline */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="pb-6"
+          >
+            <h1 className="text-foreground tracking-tight text-[32px] font-bold leading-tight text-left">
+              Defina seu objetivo
+            </h1>
+            <p className="text-muted-foreground text-lg font-normal leading-normal pt-2">
+              O que você procura hoje?
+            </p>
+          </motion.div>
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          <h1 className="text-2xl font-bold text-foreground mb-2">
-            O que você procura?
-          </h1>
-          <p className="text-muted-foreground mb-8">
-            Selecione seu objetivo principal
-          </p>
-        </motion.div>
-
-        <div className="flex-1 space-y-4">
+        {/* Option Cards */}
+        <div className="flex flex-col gap-4 w-full flex-grow">
           {objectives.map((objective, index) => {
-            const isSelected = selected === objective.id;
+            const IconComponent = objective.icon;
+            const isSelected = selectedObjective === objective.id;
             
             return (
               <motion.button
                 key={objective.id}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.4, delay: index * 0.1 }}
-                onClick={() => setSelected(objective.id)}
-                className={`w-full text-left tennis-card p-5 border-2 transition-all duration-300 ${
-                  isSelected ? "border-primary scale-[1.02]" : "border-transparent"
-                }`}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+                onClick={() => setSelectedObjective(objective.id)}
+                className="group relative w-full text-left"
               >
-                <div className="flex items-start gap-4">
-                  <div
-                    className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 transition-colors ${
-                      isSelected ? "bg-primary/20" : "bg-secondary"
-                    }`}
-                  >
-                    <objective.icon
-                      className={`w-6 h-6 transition-colors ${
-                        isSelected ? "text-primary" : "text-muted-foreground"
-                      }`}
-                    />
+                {isSelected && (
+                  <div className="absolute -right-2 -top-2 bg-primary text-primary-foreground rounded-full p-1 shadow-sm z-10">
+                    <Check className="w-4 h-4" />
                   </div>
-                  <div className="flex-1">
-                    <h3 className="font-semibold text-foreground text-lg mb-1">
-                      {objective.label}
-                    </h3>
-                    <p className="text-muted-foreground text-sm leading-relaxed">
-                      {objective.description}
-                    </p>
+                )}
+                <div className={`flex items-center justify-between gap-4 rounded-xl bg-card p-4 transition-all duration-300 border-2 ${
+                  isSelected 
+                    ? "border-primary shadow-primary" 
+                    : "border-transparent hover:border-primary/50"
+                }`}>
+                  <div className="flex flex-col justify-center gap-1 flex-[2_2_0px]">
+                    <div className="flex items-center gap-2 mb-1">
+                      <IconComponent className="w-6 h-6 text-primary" />
+                      <p className="text-foreground text-lg font-bold leading-tight">{objective.title}</p>
+                    </div>
+                    <p className="text-muted-foreground text-sm font-normal leading-normal">{objective.description}</p>
                   </div>
-                  {isSelected && (
-                    <motion.div
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center"
-                    >
-                      <div className="w-2 h-2 rounded-full bg-primary" />
-                    </motion.div>
-                  )}
+                  <div 
+                    className="w-24 h-24 bg-center bg-no-repeat bg-cover rounded-lg flex-none shadow-inner"
+                    style={{ backgroundImage: `url("${objective.image}")` }}
+                  />
                 </div>
               </motion.button>
             );
           })}
         </div>
 
-        <motion.button
+        {/* CTA */}
+        <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          onClick={() => selected && navigate("/onboarding/availability")}
-          disabled={!selected}
-          className={`tennis-button w-full flex items-center justify-center gap-2 ${
-            !selected ? "opacity-50 cursor-not-allowed" : ""
-          }`}
+          transition={{ delay: 0.4 }}
+          className="pt-8 pb-4 mt-auto"
         >
-          Continuar
-          <ArrowRight className="w-5 h-5" />
-        </motion.button>
+          <button
+            onClick={() => navigate("/onboarding/availability")}
+            className="tennis-button w-full flex items-center justify-center gap-3"
+          >
+            Continuar
+            <ArrowRight className="w-5 h-5" />
+          </button>
+        </motion.div>
       </div>
     </MobileLayout>
   );

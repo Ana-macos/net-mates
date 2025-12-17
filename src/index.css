@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&family=Noto+Sans:wght@400;500;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,63 +6,85 @@
 
 @layer base {
   :root {
-    --background: 220 20% 10%;
-    --foreground: 0 0% 98%;
+    /* New Tennis Connect color scheme - Light mode */
+    --background: 50 14% 97%;
+    --foreground: 50 50% 7%;
 
-    --card: 220 20% 14%;
-    --card-foreground: 0 0% 98%;
+    --card: 0 0% 100%;
+    --card-foreground: 50 50% 7%;
 
-    --popover: 220 20% 12%;
-    --popover-foreground: 0 0% 98%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 50 50% 7%;
 
-    --primary: 142 71% 45%;
-    --primary-foreground: 220 20% 10%;
+    --primary: 59 95% 50%;
+    --primary-foreground: 50 50% 7%;
 
-    --secondary: 220 20% 18%;
-    --secondary-foreground: 0 0% 98%;
+    --secondary: 50 8% 90%;
+    --secondary-foreground: 50 50% 7%;
 
-    --muted: 220 15% 25%;
-    --muted-foreground: 220 10% 60%;
+    --muted: 50 8% 85%;
+    --muted-foreground: 50 15% 40%;
 
-    --accent: 32 95% 55%;
-    --accent-foreground: 220 20% 10%;
+    --accent: 50 8% 92%;
+    --accent-foreground: 50 50% 7%;
 
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 220 15% 22%;
-    --input: 220 15% 20%;
-    --ring: 142 71% 45%;
+    --border: 50 8% 88%;
+    --input: 50 8% 92%;
+    --ring: 59 95% 50%;
 
     --radius: 1rem;
 
-    /* Custom tokens */
-    --tennis-green: 142 71% 45%;
-    --tennis-green-glow: 142 71% 55%;
-    --tennis-dark: 220 20% 8%;
-    --tennis-card: 220 20% 14%;
-    --tennis-card-hover: 220 20% 18%;
-    --partner-badge: 32 95% 55%;
+    /* Surface colors */
+    --surface: 0 0% 100%;
+    --surface-dark: 50 15% 12%;
 
-    /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(142 71% 45%), hsl(142 71% 35%));
-    --gradient-card: linear-gradient(180deg, hsl(220 20% 16%), hsl(220 20% 12%));
-    --gradient-hero: linear-gradient(180deg, hsl(220 20% 12%) 0%, hsl(220 20% 8%) 100%);
-    --gradient-partner: linear-gradient(135deg, hsl(32 95% 55%), hsl(32 95% 45%));
+    /* Text colors */
+    --text-main: 50 50% 7%;
+    --text-secondary: 50 15% 40%;
+
+    /* Partner badge */
+    --partner-badge: 59 95% 50%;
 
     /* Shadows */
-    --shadow-glow: 0 0 30px hsl(142 71% 45% / 0.3);
-    --shadow-card: 0 4px 20px hsl(0 0% 0% / 0.3);
-    --shadow-button: 0 4px 15px hsl(142 71% 45% / 0.4);
+    --shadow-primary: 0 4px 12px hsl(59 95% 50% / 0.2);
+    --shadow-card: 0 2px 8px hsl(0 0% 0% / 0.04);
 
-    /* Animations */
+    /* Transitions */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   }
 
   .dark {
-    --background: 220 20% 10%;
+    --background: 50 25% 6%;
     --foreground: 0 0% 98%;
+
+    --card: 50 18% 10%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 50 18% 10%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 59 95% 50%;
+    --primary-foreground: 50 50% 7%;
+
+    --secondary: 50 15% 15%;
+    --secondary-foreground: 0 0% 98%;
+
+    --muted: 50 15% 20%;
+    --muted-foreground: 50 10% 65%;
+
+    --accent: 50 15% 18%;
+    --accent-foreground: 0 0% 98%;
+
+    --border: 50 15% 18%;
+    --input: 50 15% 15%;
+    --ring: 59 95% 50%;
+
+    --surface: 50 18% 10%;
+    --text-main: 0 0% 100%;
+    --text-secondary: 50 15% 55%;
   }
 }
 
@@ -72,7 +94,7 @@
   }
 
   body {
-    @apply bg-background text-foreground font-outfit antialiased;
+    @apply bg-background text-foreground font-display antialiased;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 
@@ -83,19 +105,20 @@
 
 @layer components {
   .tennis-card {
-    @apply bg-card rounded-2xl border border-border/50 backdrop-blur-sm;
-    background: var(--gradient-card);
-    box-shadow: var(--shadow-card);
+    @apply bg-card rounded-xl border border-border/50 shadow-sm transition-all;
+  }
+
+  .tennis-card-featured {
+    @apply bg-card rounded-xl border-2 border-primary/30 shadow-sm;
   }
 
   .tennis-button {
-    @apply bg-primary text-primary-foreground font-semibold rounded-xl px-6 py-4 transition-all duration-300;
-    box-shadow: var(--shadow-button);
+    @apply bg-primary text-primary-foreground font-bold rounded-full px-6 py-4 transition-all duration-300;
+    box-shadow: var(--shadow-primary);
   }
 
   .tennis-button:hover {
-    @apply scale-[1.02];
-    box-shadow: var(--shadow-glow);
+    @apply scale-[1.02] opacity-90;
   }
 
   .tennis-button:active {
@@ -103,13 +126,13 @@
   }
 
   .partner-badge {
-    @apply inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-semibold;
-    background: var(--gradient-partner);
-    color: hsl(var(--tennis-dark));
+    @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide;
+    @apply bg-primary text-primary-foreground;
   }
 
   .level-badge {
-    @apply inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium bg-secondary text-secondary-foreground;
+    @apply inline-flex items-center gap-1 px-2 py-1 rounded-md text-xs font-semibold;
+    @apply bg-muted text-foreground;
   }
 
   .mobile-container {
@@ -121,72 +144,151 @@
   }
 
   .input-field {
-    @apply w-full bg-input border border-border rounded-xl px-4 py-4 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all;
+    @apply w-full bg-card border-0 ring-1 ring-border rounded-xl px-4 py-4 text-foreground placeholder:text-muted-foreground;
+    @apply focus:ring-2 focus:ring-primary focus:outline-none transition-shadow shadow-sm;
   }
 
   .selection-card {
-    @apply tennis-card p-4 cursor-pointer transition-all duration-300 hover:border-primary/50;
+    @apply tennis-card p-4 cursor-pointer transition-all duration-300;
+    @apply border-2 border-transparent hover:border-primary/50;
   }
 
   .selection-card.selected {
-    @apply border-primary bg-primary/10;
+    @apply border-primary bg-primary/5;
   }
 
   .chip {
-    @apply px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 cursor-pointer;
-    @apply bg-secondary text-muted-foreground hover:bg-secondary/80;
+    @apply px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-200 cursor-pointer;
+    @apply bg-card border border-border text-muted-foreground hover:bg-muted;
   }
 
   .chip.selected {
-    @apply bg-primary text-primary-foreground;
+    @apply bg-primary text-primary-foreground border-transparent;
+  }
+
+  .chip-dark {
+    @apply px-4 py-2 rounded-lg text-sm font-medium transition-all cursor-pointer;
+    @apply bg-card border border-border text-muted-foreground;
+  }
+
+  .chip-dark.selected {
+    @apply bg-foreground text-background border-transparent;
+  }
+
+  .segmented-control {
+    @apply flex p-1 bg-card rounded-full border border-border/50;
+  }
+
+  .segmented-item {
+    @apply flex-1 flex items-center justify-center py-2.5 rounded-full text-sm font-semibold transition-all;
+    @apply text-muted-foreground;
+  }
+
+  .segmented-item.selected {
+    @apply bg-primary text-primary-foreground shadow-sm;
+  }
+
+  .day-button {
+    @apply flex flex-col items-center justify-center min-w-[64px] h-[72px] rounded-xl transition-all;
+    @apply bg-card border border-border text-muted-foreground hover:border-primary/50;
+  }
+
+  .day-button.selected {
+    @apply bg-primary text-primary-foreground border-transparent shadow-md;
+  }
+
+  .time-slot {
+    @apply flex h-12 w-12 flex-col items-center justify-center rounded-full transition-all;
+    @apply bg-card border border-border text-muted-foreground;
+  }
+
+  .time-slot.selected {
+    @apply bg-primary text-primary-foreground border-transparent shadow-lg;
+  }
+
+  .time-card {
+    @apply flex w-full items-center justify-between rounded-xl p-4 transition-all;
+    @apply bg-card border border-border hover:border-primary;
+  }
+
+  .time-card.selected {
+    @apply ring-2 ring-primary shadow-lg;
   }
 
   .avatar-ring {
-    @apply ring-2 ring-primary ring-offset-2 ring-offset-background;
+    @apply ring-2 ring-primary/20;
   }
 
   .glass-effect {
-    @apply bg-card/80 backdrop-blur-xl border border-border/30;
+    @apply bg-background/95 backdrop-blur-sm;
   }
 
-  .fade-in {
-    animation: fadeIn 0.5s ease-out forwards;
+  .bottom-nav {
+    @apply fixed bottom-0 left-0 w-full bg-card border-t border-border pb-safe pt-2 px-6;
+    @apply flex justify-between items-center z-50;
   }
 
-  .slide-up {
-    animation: slideUp 0.5s ease-out forwards;
+  .nav-item {
+    @apply flex flex-col items-center gap-1 p-2 text-muted-foreground transition-colors;
+  }
+
+  .nav-item.active {
+    @apply text-foreground;
+  }
+
+  .fab {
+    @apply size-14 rounded-full bg-foreground text-primary shadow-lg;
+    @apply flex items-center justify-center hover:scale-105 transition-transform;
+  }
+
+  /* Progress indicators */
+  .progress-dot {
+    @apply h-2 w-2 rounded-full bg-muted transition-all;
+  }
+
+  .progress-dot.active {
+    @apply w-8 bg-primary;
+  }
+
+  /* No scrollbar utility */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  /* Safe area padding */
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom, 0);
   }
 }
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 @keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes pulse-glow {
-  0%, 100% {
-    box-shadow: 0 0 20px hsl(142 71% 45% / 0.3);
-  }
-  50% {
-    box-shadow: 0 0 40px hsl(142 71% 45% / 0.5);
-  }
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
 }
 
-.pulse-glow {
-  animation: pulse-glow 2s ease-in-out infinite;
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.5s ease-out forwards;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.3s ease-out forwards;
 }

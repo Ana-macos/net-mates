@@ -1,166 +1,167 @@
-import { useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { MobileLayout } from "@/components/ui/MobileLayout";
-import { ArrowRight, ArrowLeft, Check } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, Sun, Sunset, Moon } from "lucide-react";
+import { useState } from "react";
 
 const days = [
-  { id: "seg", label: "Seg" },
-  { id: "ter", label: "Ter" },
-  { id: "qua", label: "Qua" },
-  { id: "qui", label: "Qui" },
-  { id: "sex", label: "Sex" },
-  { id: "sab", label: "Sáb" },
-  { id: "dom", label: "Dom" },
+  { id: "mon", label: "S" },
+  { id: "tue", label: "T" },
+  { id: "wed", label: "Q" },
+  { id: "thu", label: "Q" },
+  { id: "fri", label: "S" },
+  { id: "sat", label: "S" },
+  { id: "sun", label: "D" },
 ];
 
-const times = [
-  { id: "manha", label: "Manhã", description: "6h - 12h" },
-  { id: "tarde", label: "Tarde", description: "12h - 18h" },
-  { id: "noite", label: "Noite", description: "18h - 22h" },
+const timeSlots = [
+  { id: "morning", icon: Sunset, title: "Manhã", time: "06:00 - 12:00" },
+  { id: "afternoon", icon: Sun, title: "Tarde", time: "12:00 - 18:00" },
+  { id: "evening", icon: Moon, title: "Noite", time: "18:00 - 23:00" },
 ];
 
 export const OnboardingAvailability = () => {
   const navigate = useNavigate();
-  const [selectedDays, setSelectedDays] = useState<string[]>([]);
-  const [selectedTimes, setSelectedTimes] = useState<string[]>([]);
+  const [selectedDays, setSelectedDays] = useState(["mon", "wed", "fri"]);
+  const [selectedTimes, setSelectedTimes] = useState(["afternoon", "evening"]);
 
-  const toggleDay = (day: string) => {
-    setSelectedDays((prev) =>
-      prev.includes(day) ? prev.filter((d) => d !== day) : [...prev, day]
+  const toggleDay = (dayId: string) => {
+    setSelectedDays(prev => 
+      prev.includes(dayId) 
+        ? prev.filter(d => d !== dayId)
+        : [...prev, dayId]
     );
   };
 
-  const toggleTime = (time: string) => {
-    setSelectedTimes((prev) =>
-      prev.includes(time) ? prev.filter((t) => t !== time) : [...prev, time]
+  const toggleTime = (timeId: string) => {
+    setSelectedTimes(prev => 
+      prev.includes(timeId) 
+        ? prev.filter(t => t !== timeId)
+        : [...prev, timeId]
     );
   };
-
-  const canContinue = selectedDays.length > 0 && selectedTimes.length > 0;
 
   return (
     <MobileLayout>
-      <div className="flex flex-col h-[calc(100%-48px)] px-6 pb-8">
-        {/* Back button */}
-        <button
-          onClick={() => navigate(-1)}
-          className="w-10 h-10 rounded-xl bg-secondary flex items-center justify-center mb-4 hover:bg-secondary/80 transition-colors"
-        >
-          <ArrowLeft className="w-5 h-5 text-foreground" />
-        </button>
+      <div className="flex flex-col min-h-[calc(844px-48px)] bg-background overflow-hidden">
+        {/* Header */}
+        <header className="flex items-center justify-between px-6 py-6 sticky top-0 z-10 glass-effect">
+          <button 
+            onClick={() => navigate(-1)}
+            className="flex h-10 w-10 items-center justify-center rounded-full bg-card border border-border text-foreground transition-transform active:scale-95"
+          >
+            <ArrowLeft className="w-5 h-5" />
+          </button>
+          <div className="flex flex-row items-center justify-center gap-2">
+            <div className="progress-dot" />
+            <div className="progress-dot" />
+            <div className="progress-dot active" />
+          </div>
+          <div className="w-10" />
+        </header>
 
-        {/* Progress indicator */}
-        <div className="flex gap-2 mb-8">
-          <div className="flex-1 h-1 bg-primary rounded-full" />
-          <div className="flex-1 h-1 bg-primary rounded-full" />
-          <div className="flex-1 h-1 bg-primary rounded-full" />
-        </div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          <h1 className="text-2xl font-bold text-foreground mb-2">
-            Quando você pode jogar?
-          </h1>
-          <p className="text-muted-foreground mb-8">
-            Selecione seus dias e horários preferidos
-          </p>
-        </motion.div>
-
-        <div className="flex-1 space-y-8">
-          {/* Days selection */}
+        <main className="flex-1 flex flex-col px-6 pb-24">
+          {/* Headline */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.1 }}
+            className="mb-8 mt-2"
           >
-            <h3 className="text-sm font-medium text-muted-foreground mb-4 uppercase tracking-wider">
-              Dias da semana
-            </h3>
-            <div className="flex gap-2 flex-wrap">
+            <h1 className="text-foreground text-4xl font-bold leading-[1.1] tracking-tight mb-3">
+              Sua disponibilidade
+            </h1>
+            <p className="text-muted-foreground text-base font-medium leading-relaxed">
+              Selecione os dias e horários em que você geralmente está livre para jogar.
+            </p>
+          </motion.div>
+
+          {/* Days Selection */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="mb-10"
+          >
+            <div className="flex justify-between items-end mb-4">
+              <h3 className="text-foreground text-lg font-bold">Dias</h3>
+              <button className="text-xs font-semibold text-muted-foreground underline decoration-2 decoration-primary/50 hover:decoration-primary underline-offset-4">
+                Selecionar fim de semana
+              </button>
+            </div>
+            <div className="flex justify-between gap-2 py-2">
               {days.map((day) => {
                 const isSelected = selectedDays.includes(day.id);
                 return (
                   <button
                     key={day.id}
                     onClick={() => toggleDay(day.id)}
-                    className={`w-12 h-12 rounded-xl font-semibold text-sm transition-all duration-200 ${
-                      isSelected
-                        ? "bg-primary text-primary-foreground scale-105"
-                        : "bg-secondary text-muted-foreground hover:bg-secondary/80"
-                    }`}
+                    className={`time-slot relative ${isSelected ? "selected" : ""}`}
                   >
-                    {day.label}
+                    <span className="text-xs font-bold uppercase">{day.label}</span>
+                    {isSelected && (
+                      <div className="absolute bottom-1.5 h-1 w-1 rounded-full bg-current" />
+                    )}
                   </button>
                 );
               })}
             </div>
           </motion.div>
 
-          {/* Times selection */}
+          {/* Time Slots */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.2 }}
+            transition={{ delay: 0.2 }}
+            className="flex flex-col gap-4"
           >
-            <h3 className="text-sm font-medium text-muted-foreground mb-4 uppercase tracking-wider">
-              Horários
-            </h3>
-            <div className="space-y-3">
-              {times.map((time) => {
-                const isSelected = selectedTimes.includes(time.id);
-                return (
-                  <button
-                    key={time.id}
-                    onClick={() => toggleTime(time.id)}
-                    className={`w-full text-left tennis-card p-4 border-2 transition-all duration-200 ${
-                      isSelected ? "border-primary" : "border-transparent"
-                    }`}
-                  >
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <h4 className="font-semibold text-foreground">
-                          {time.label}
-                        </h4>
-                        <p className="text-sm text-muted-foreground">
-                          {time.description}
-                        </p>
-                      </div>
-                      <div
-                        className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${
-                          isSelected
-                            ? "bg-primary border-primary"
-                            : "border-muted-foreground"
-                        }`}
-                      >
-                        {isSelected && (
-                          <Check className="w-4 h-4 text-primary-foreground" />
-                        )}
-                      </div>
+            <h3 className="text-foreground text-lg font-bold">Horário</h3>
+            
+            {timeSlots.map((slot) => {
+              const IconComponent = slot.icon;
+              const isSelected = selectedTimes.includes(slot.id);
+              
+              return (
+                <button
+                  key={slot.id}
+                  onClick={() => toggleTime(slot.id)}
+                  className={`time-card group ${isSelected ? "selected" : ""}`}
+                >
+                  <div className="flex items-center gap-4">
+                    <div className={`flex h-12 w-12 items-center justify-center rounded-full transition-colors ${
+                      isSelected 
+                        ? "bg-primary text-primary-foreground" 
+                        : "bg-muted text-muted-foreground group-hover:bg-primary/20 group-hover:text-primary"
+                    }`}>
+                      <IconComponent className="w-5 h-5" />
                     </div>
-                  </button>
-                );
-              })}
-            </div>
+                    <div className="text-left">
+                      <p className="text-base font-bold text-foreground">{slot.title}</p>
+                      <p className="text-sm font-medium text-muted-foreground">{slot.time}</p>
+                    </div>
+                  </div>
+                  <div className={`h-6 w-6 rounded-full border-2 transition-colors flex items-center justify-center ${
+                    isSelected 
+                      ? "bg-primary border-primary" 
+                      : "border-border group-hover:border-primary"
+                  }`}>
+                    {isSelected && <Check className="w-4 h-4 text-primary-foreground" />}
+                  </div>
+                </button>
+              );
+            })}
           </motion.div>
-        </div>
+        </main>
 
-        <motion.button
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          onClick={() => canContinue && navigate("/home")}
-          disabled={!canContinue}
-          className={`tennis-button w-full flex items-center justify-center gap-2 ${
-            !canContinue ? "opacity-50 cursor-not-allowed" : ""
-          }`}
-        >
-          Começar a jogar
-          <ArrowRight className="w-5 h-5" />
-        </motion.button>
+        {/* Footer CTA */}
+        <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-background via-background to-transparent flex justify-center">
+          <button
+            onClick={() => navigate("/home")}
+            className="tennis-button w-full flex items-center justify-center gap-3 group"
+          >
+            <span>Encontrar jogos</span>
+            <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+          </button>
+        </div>
       </div>
     </MobileLayout>
   );
